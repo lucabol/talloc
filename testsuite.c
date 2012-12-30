@@ -32,6 +32,8 @@
 
 #include "talloc_testsuite.h"
 
+#define ALWAYS_REALLOC 0 // this should be in sync with the one defined in talloc.c
+
 #define PTR_DIFF(p1,p2) ((ptrdiff_t)(((const char *)(p1)) - (const char *)(p2)))
 
 #ifdef __GNUC__
@@ -1143,7 +1145,7 @@ static bool test_pool(void)
 	p4 = talloc_size(p3, 1000);
 	memset(p4, 0x11, talloc_get_size(p4));
 
-#if 1 /* this relies on ALWAYS_REALLOC == 0 in talloc.c */
+#if ALWAYS_REALLOC == 0 /* this relies on ALWAYS_REALLOC == 0 in talloc.c */
 	p2_2 = talloc_realloc_size(pool, p2, 20+1);
 	torture_assert("pool realloc 20+1", p2_2 == p2, "failed: pointer changed");
 	memset(p2, 0x11, talloc_get_size(p2));
@@ -1244,7 +1246,7 @@ static bool test_pool_steal(void)
 
 	p1_2 = p1;
 
-#if 1 /* this relies on ALWAYS_REALLOC == 0 in talloc.c */
+#if ALWAYS_REALLOC == 0/* this relies on ALWAYS_REALLOC == 0 in talloc.c */
 	p1_2 = talloc_realloc_size(root, p1, 5 * 16);
 	torture_assert("pool realloc 5 * 16", p1_2 > p2, "failed: pointer not changed");
 	memset(p1_2, 0x11, talloc_get_size(p1_2));
@@ -1262,7 +1264,7 @@ static bool test_pool_steal(void)
 
 	p2_2 = p2;
 
-#if 1 /* this relies on ALWAYS_REALLOC == 0 in talloc.c */
+#if ALWAYS_REALLOC == 0  /* this relies on ALWAYS_REALLOC == 0 in talloc.c */
 	/* now we should reclaim the full pool */
 	p2_2 = talloc_realloc_size(root, p2, 8 * 16);
 	torture_assert("pool realloc 8 * 16", p2_2 == p1, "failed: pointer not expected");

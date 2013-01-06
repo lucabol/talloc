@@ -46,6 +46,7 @@
 #include <string.h>
 #include <stdbool.h> // For bool
 #include <errno.h> // for ENOMEM
+#include <sys/types.h> // for ssize_t
 
 #ifdef __cplusplus
 extern "C" {
